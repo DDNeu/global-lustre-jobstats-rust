@@ -159,10 +159,20 @@ update_cargo_version() {
 build_release() {
     log_info "Building release binary..."
     if [[ "$DRY_RUN" == "true" ]]; then
-        log_info "[DRY-RUN] Would run: cargo build --release -j8"; return
+        log_info "[DRY-RUN] Would run: cargo build --release -j8"
+        log_info "[DRY-RUN] Would strip binary: target/release/${BINARY_NAME}"
+        return
     fi
     cargo build --release -j8
     log_success "Build completed"
+
+    # Strip the binary to reduce size
+    local binary="target/release/${BINARY_NAME}"
+    local size_before=$(stat -c%s "$binary" 2>/dev/null || echo "unknown")
+    log_info "Stripping binary (before: ${size_before} bytes)..."
+    strip "$binary"
+    local size_after=$(stat -c%s "$binary" 2>/dev/null || echo "unknown")
+    log_success "Binary stripped (after: ${size_after} bytes)"
 }
 
 run_tests() {
