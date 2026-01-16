@@ -50,6 +50,7 @@ _glljobstat_completions() {
           --log-max-size
           --tui
           --list-profiles
+          --init
           -h --help
           -V --version"
 
