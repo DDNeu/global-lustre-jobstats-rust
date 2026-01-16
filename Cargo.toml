@@ -1,0 +1,63 @@
+[package]
+name = "glljobstat"
+version = "0.1.0"
+edition = "2021"
+authors = ["Bjoern Olausson", "Maxence Joulin"]
+description = "Read job_stats files, parse and aggregate data of every job on multiple OSS/MDS via SSH"
+license = "MIT"
+
+[[bin]]
+name = "glljobstat"
+path = "src/main.rs"
+
+[dependencies]
+# CLI argument parsing
+clap = { version = "4", features = ["derive"] }
+
+# Async runtime for parallel operations
+tokio = { version = "1", features = ["full"] }
+
+# SSH connectivity
+ssh2 = "0.9"
+
+# Serialization/deserialization (pickle replacement)
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Configuration file parsing
+toml = "0.8"
+
+# Time handling
+chrono = "0.4"
+
+# Error handling
+anyhow = "1"
+thiserror = "1"
+
+# Directory paths
+dirs = "5"
+
+# Regular expressions
+regex = "1"
+
+# Password input
+rpassword = "7"
+
+# Async SSH (for parallel connections)
+async-trait = "0.1"
+
+# Parquet/Arrow for columnar data export
+arrow = { version = "54", features = ["prettyprint"] }
+parquet = { version = "54", features = ["arrow", "async"] }
+
+# Async file I/O (part of tokio, adding for clarity)
+futures = "0.3"
+
+# TUI dependencies
+ratatui = "0.29"
+crossterm = "0.28"
+
+[profile.release]
+opt-level = 3
+lto = true
+
