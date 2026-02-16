@@ -1,6 +1,8 @@
 # glljobstat (Rust)
 
-A high-performance Rust rewrite of [glljobstat.py](https://github.com/DDNeu/global-lustre-jobstats), based on [lljobstat](https://review.whamcloud.com/c/fs/lustre-release/+/48888) with significant enhancements for monitoring Lustre job statistics across multiple servers.
+A high-performance Rust rewrite of my [glljobstat.py](https://github.com/DDNeu/global-lustre-jobstats) script (which is based on [lljobstat](https://review.whamcloud.com/c/fs/lustre-release/+/48888)) with significant enhancements for monitoring Lustre job statistics across multiple servers
+
+This was all done with the help of an LLM!
 
 ## Features
 
