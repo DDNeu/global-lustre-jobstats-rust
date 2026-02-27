@@ -1,5 +1,6 @@
 //! TUI widget modules
 
+pub mod bar_chart;
 pub mod graph;
 pub mod help;
 pub mod job_table;

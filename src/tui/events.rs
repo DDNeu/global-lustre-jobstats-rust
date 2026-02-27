@@ -178,6 +178,26 @@ pub fn handle_key_event(app: &mut TuiApp, key: KeyEvent) {
             app.set_status(format!("Graph legend: {}", state));
         }
 
+        // Toggle bar chart / line chart
+        KeyCode::Char('b') => {
+            app.toggle_graph_kind();
+            let kind = match app.graph_kind {
+                crate::tui::app::GraphKind::TimeSeries => "Time Series",
+                crate::tui::app::GraphKind::BarChart => "Bar Chart",
+            };
+            app.set_status(format!("Graph: {}", kind));
+        }
+        // Toggle bar chart log/linear scale
+        KeyCode::Char('L') => {
+            app.toggle_bar_chart_scale();
+            let scale = if app.bar_chart_log_scale {
+                "Logarithmic"
+            } else {
+                "Linear"
+            };
+            app.set_status(format!("Bar chart scale: {}", scale));
+        }
+
         // Start editing job filter
         KeyCode::Char('/') => {
             app.focus = FocusArea::JobIdFilter;

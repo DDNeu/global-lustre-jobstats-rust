@@ -221,6 +221,15 @@ pub enum SelectionMode {
     Exclusive,
 }
 
+/// Which type of graph to display in the graph area
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum GraphKind {
+    /// Time-series line chart (existing)
+    TimeSeries,
+    /// Bar chart showing current operation values
+    BarChart,
+}
+
 /// Main TUI application state
 pub struct TuiApp {
     // Configuration
@@ -279,6 +288,10 @@ pub struct TuiApp {
     pub graph_rate_mode: bool,
     /// If true, hide the legend inside the graph plot area
     pub graph_hide_legend: bool,
+    /// Which graph type to display (line chart vs bar chart)
+    pub graph_kind: GraphKind,
+    /// If true, use log10 scale for bar chart; if false, use linear
+    pub bar_chart_log_scale: bool,
 
     // Replay mode
     /// Replay controller (Some = replay mode, None = live mode)
@@ -333,6 +346,8 @@ impl TuiApp {
             graph_aggregate_mode: false, // Default: per-job mode
             graph_rate_mode: false,      // Default: show raw counters
             graph_hide_legend: false,    // Default: show legend in graph
+            graph_kind: GraphKind::TimeSeries,
+            bar_chart_log_scale: true,
             replay,
         }
     }
@@ -355,6 +370,19 @@ impl TuiApp {
     /// Toggle graph legend visibility
     pub fn toggle_graph_legend(&mut self) {
         self.graph_hide_legend = !self.graph_hide_legend;
+    }
+
+    /// Toggle between time-series and bar chart graph
+    pub fn toggle_graph_kind(&mut self) {
+        self.graph_kind = match self.graph_kind {
+            GraphKind::TimeSeries => GraphKind::BarChart,
+            GraphKind::BarChart => GraphKind::TimeSeries,
+        };
+    }
+
+    /// Toggle bar chart log/linear scale
+    pub fn toggle_bar_chart_scale(&mut self) {
+        self.bar_chart_log_scale = !self.bar_chart_log_scale;
     }
 
     /// Check if rate/difference mode is enabled

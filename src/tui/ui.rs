@@ -95,7 +95,10 @@ fn render_content(f: &mut Frame, area: Rect, app: &mut TuiApp) {
         widgets::left_panel::render(f, area, app);
     }
 
-    widgets::graph::render(f, graph_area, app);
+    match app.graph_kind {
+        super::app::GraphKind::TimeSeries => widgets::graph::render(f, graph_area, app),
+        super::app::GraphKind::BarChart => widgets::bar_chart::render(f, graph_area, app),
+    }
 
     if let Some(area) = right_area {
         widgets::legend::render(f, area, app);

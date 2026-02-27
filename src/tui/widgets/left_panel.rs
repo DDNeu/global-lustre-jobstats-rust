@@ -5,6 +5,7 @@ use ratatui::{
     widgets::{Block, Borders, List, ListItem, Paragraph},
 };
 
+use crate::op_keys::OP_KEYS_REV;
 use crate::tui::app::{FocusArea, HitRegion, HitRegionType, InputMode, TuiApp};
 use crate::tui::widgets::graph::get_operation_color;
 
@@ -143,9 +144,15 @@ fn render_operation_filter(f: &mut Frame, area: Rect, app: &mut TuiApp) {
                 Style::default().fg(Color::DarkGray)
             };
 
+            let short = OP_KEYS_REV
+                .get(op)
+                .map(|s| format!(" ({})", s))
+                .unwrap_or_default();
+
             let line = Line::from(vec![
                 Span::styled(format!("{} ", checkbox), checkbox_style),
                 Span::styled(op.to_string(), op_style),
+                Span::styled(short, Style::default().fg(Color::DarkGray)),
             ]);
 
             ListItem::new(line)
